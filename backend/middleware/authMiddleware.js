@@ -28,4 +28,14 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+// [NEW FEATURE] Admin Middleware for RBAC
+// This explicitly checks if the authenticated user has the 'admin' role
+const admin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next(); // User is admin, allow access to the route
+    } else {
+        res.status(403).json({ message: 'Access Denied: Not authorized as an administrator' });
+    }
+};
+
+module.exports = { protect, admin };

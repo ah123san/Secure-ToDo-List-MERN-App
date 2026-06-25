@@ -1,11 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { registerUser, authUser } = require('../controllers/userController');
+const { registerUser, authUser, getAllUsers } = require('../controllers/userController');
 
-// Jab frontend se /register par POST request aayegi, to registerUser wala function chalega
+// Assume your auth middleware is in a middleware folder. 
+// If your folder structure is different, please update the path below.
+const { protect, admin } = require('../middleware/authMiddleware'); 
+
+// Standard User Routes
+// Handles user registration
 router.post('/register', registerUser);
 
-// Jab frontend se /login par POST request aayegi, to authUser wala function chalega
+// Handles user login and token generation
 router.post('/login', authUser);
+
+// [NEW] Secure Admin Routes
+// Strictly protected route: Requires valid JWT (protect) AND Admin role (admin)
+// Fetches all users for the admin dashboard
+router.get('/admin/users', protect, admin, getAllUsers);
 
 module.exports = router;

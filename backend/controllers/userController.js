@@ -18,6 +18,7 @@ const registerUser = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role, // [NEW] Sending role to frontend
                 token: generateToken(user._id)
             });
         } else {
@@ -39,6 +40,7 @@ const authUser = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role, // [NEW] Sending role to frontend
                 token: generateToken(user._id)
             });
         } else {
@@ -49,4 +51,15 @@ const authUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, authUser };
+// [NEW FEATURE] Fetch all users (For Admin Dashboard)
+const getAllUsers = async (req, res) => {
+    try {
+        // Fetch all users but exclude their passwords for security
+        const users = await User.find({}).select('-password');
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { registerUser, authUser, getAllUsers };

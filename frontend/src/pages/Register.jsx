@@ -19,7 +19,9 @@ const Register = () => {
       localStorage.setItem('userInfo', JSON.stringify(data));
       
       toast.success('Account Created Successfully!', { id: toastId });
-      navigate('/');
+      
+      // ✅ FIX: Redirecting directly to Dashboard
+      navigate('/dashboard');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Registration Failed', { id: toastId });
     }
@@ -30,10 +32,11 @@ const Register = () => {
       <form onSubmit={submitHandler} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
         <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">Register</h2>
         
+        {/* ✅ FIX: Added text-gray-900 */}
         <input 
           type="text" 
           placeholder="Full Name" 
-          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition-all"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -42,7 +45,7 @@ const Register = () => {
         <input 
           type="email" 
           placeholder="Email" 
-          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition-all"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -51,7 +54,7 @@ const Register = () => {
         <input 
           type="password" 
           placeholder="Password" 
-          className="w-full p-3 mb-6 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-3 mb-6 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition-all"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

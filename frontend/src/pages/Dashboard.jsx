@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import UpgradeModal from '../components/UpgradeModal';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -11,6 +12,9 @@ const Dashboard = () => {
 
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
+
+  // Paywall Modal State
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
@@ -43,11 +47,17 @@ const Dashboard = () => {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
       const { data } = await axios.post('http://localhost:5000/api/tasks', { title }, config);
       
-      setTasks([...tasks, data]); 
+      // FIX: Added 'prevTasks' callback for instant UI update without refresh
+      setTasks((prevTasks) => [...prevTasks, data]); 
       setTitle(''); 
       toast.success('Task Added!', { id: toastId });
     } catch (error) {
-      toast.error('Failed to add task', { id: toastId });
+      if (error.response && error.response.status === 403) {
+        toast.dismiss(toastId); 
+        setIsUpgradeModalOpen(true); 
+      } else {
+        toast.error('Failed to add task', { id: toastId });
+      }
     }
   };
 
@@ -104,30 +114,19 @@ const Dashboard = () => {
     }
   };
 
-  const logoutHandler = () => {
-    localStorage.removeItem('userInfo');
-    toast.success('Logged out successfully');
-    navigate('/login');
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <nav className="bg-white shadow-sm border-b px-8 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-blue-600">SecureToDo</h1>
-        <button onClick={logoutHandler} className="text-sm font-semibold text-gray-600 hover:text-red-600 transition">
-          Logout
-        </button>
-      </nav>
-
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
       <main className="max-w-3xl mx-auto mt-10 p-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">Hello, {userName}! 👋</h2>
+          <div className="flex justify-center items-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 text-center">Hello, {userName}! 👋</h2>
+          </div>
           
           <form onSubmit={addTaskHandler} className="flex gap-3 mb-8">
             <input 
               type="text" 
               placeholder="What needs to be done?" 
-              className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-gray-900 transition-all"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -147,7 +146,7 @@ const Dashboard = () => {
                     <div className="flex-1 flex gap-3 mr-4">
                       <input
                         type="text"
-                        className="flex-1 p-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 p-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
                         autoFocus
@@ -196,6 +195,12 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+      
+      {/* Paywall Popup */}
+      <UpgradeModal 
+        isOpen={isUpgradeModalOpen} 
+        onClose={() => setIsUpgradeModalOpen(false)} 
+      />
     </div>
   );
 };

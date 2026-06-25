@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast'; // 1. Imported toast function
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +11,6 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     
-    // 2. Loading toast while request is processing
     const toastId = toast.loading('Verifying details...');
 
     try {
@@ -19,12 +18,11 @@ const Login = () => {
       
       localStorage.setItem('userInfo', JSON.stringify(data));
       
-      // 3. Success toast replacing the default alert
       toast.success('Welcome Back!', { id: toastId });
       
-      navigate('/');
+      // ✅ FIX: Redirecting directly to Dashboard instead of Landing Page
+      navigate('/dashboard');
     } catch (error) {
-      // 4. Error toast for invalid credentials
       toast.error(error.response?.data?.message || 'Login Failed', { id: toastId });
     }
   };
@@ -34,10 +32,11 @@ const Login = () => {
       <form onSubmit={submitHandler} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
         <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">Login</h2>
         
+        {/* ✅ FIX: Added text-gray-900 so text is visible */}
         <input 
           type="email" 
           placeholder="Email" 
-          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-3 mb-4 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition-all"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -46,7 +45,7 @@ const Login = () => {
         <input 
           type="password" 
           placeholder="Password" 
-          className="w-full p-3 mb-6 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          className="w-full p-3 mb-6 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition-all"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
