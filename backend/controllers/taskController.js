@@ -46,17 +46,32 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
     try {
-        const task = await Task.findById(req.params.id);
-        if (!task) return res.status(404).json({ message: 'Task not found' });
-
-        if (task.user.toString() !== req.user.id) {
-            return res.status(401).json({ message: 'User not authorized' });
+        const updates = {};
+        if (Object.hasOwn(req.body, 'title')) {
+            if (typeof req.body.title !== 'string' || !req.body.title.trim()) {
+                return res.status(400).json({ message: 'Please provide a task title' });
+            }
+            updates.title = req.body.title.trim();
+        }
+        if (Object.hasOwn(req.body, 'completed')) {
+            if (typeof req.body.completed !== 'boolean') {
+                return res.status(400).json({ message: 'Completed must be true or false' });
+            }
+            updates.completed = req.body.completed;
+        }
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ message: 'No valid task fields provided' });
         }
 
-        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json(updatedTask);
+        const updatedTask = await Task.findOneAndUpdate(
+            { _id: req.params.id, user: req.user.id },
+            { $set: updates },
+            { new: true, runValidators: true }
+        );
+        if (!updatedTask) return res.status(404).json({ message: 'Task not found' });
+        return res.status(200).json(updatedTask);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 };
 

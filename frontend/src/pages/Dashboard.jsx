@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../config/api';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -30,7 +31,7 @@ const Dashboard = () => {
   const fetchTasks = async (token) => {
     try {
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/tasks', config);
+      const { data } = await axios.get(`${API_BASE_URL}/api/tasks`, config);
       setTasks(data);
     } catch (error) {
       toast.error('Failed to load tasks');
@@ -45,7 +46,7 @@ const Dashboard = () => {
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/tasks', { title }, config);
+      const { data } = await axios.post(`${API_BASE_URL}/api/tasks`, { title }, config);
       
       // FIX: Added 'prevTasks' callback for instant UI update without refresh
       setTasks((prevTasks) => [...prevTasks, data]); 
@@ -66,7 +67,7 @@ const Dashboard = () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
       
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`, config);
+      await axios.delete(`${API_BASE_URL}/api/tasks/${id}`, config);
       setTasks(tasks.filter((task) => task._id !== id));
       toast.success('Task Deleted!');
     } catch (error) {
@@ -79,7 +80,7 @@ const Dashboard = () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
       
-      const { data } = await axios.put(`http://localhost:5000/api/tasks/${id}`, { completed: !currentStatus }, config);
+      const { data } = await axios.put(`${API_BASE_URL}/api/tasks/${id}`, { completed: !currentStatus }, config);
       setTasks(tasks.map((task) => (task._id === id ? data : task)));
     } catch (error) {
       toast.error('Failed to update status');
@@ -104,7 +105,7 @@ const Dashboard = () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
       
-      const { data } = await axios.put(`http://localhost:5000/api/tasks/${id}`, { title: editTitle }, config);
+      const { data } = await axios.put(`${API_BASE_URL}/api/tasks/${id}`, { title: editTitle }, config);
       setTasks(tasks.map((task) => (task._id === id ? data : task)));
       
       setEditingTaskId(null);

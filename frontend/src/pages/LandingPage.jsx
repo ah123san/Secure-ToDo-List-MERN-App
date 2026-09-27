@@ -17,7 +17,7 @@ export default function LandingPage() {
           
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-zinc-900 border border-zinc-800 shadow-sm mb-4">
             <span className="flex w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse mr-3"></span>
-            <span className="text-sm font-bold text-zinc-300 tracking-wide">Enterprise-Grade MERN Application</span>
+            <span className="text-sm font-bold text-zinc-300 tracking-wide">MERN Task Management Project</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white drop-shadow-2xl leading-tight">
@@ -29,7 +29,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 leading-relaxed font-medium">
-            Not just another Todo app. This is a fully scaled SaaS architecture engineered with strict MVC patterns, Bank-Grade Security (RBAC), and an automated Paywall engine.
+            A full-stack task manager with account authentication, personal tasks, and role-based API access.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8">
@@ -76,7 +76,7 @@ export default function LandingPage() {
             <div className="p-6">
               <div className="w-16 h-16 mx-auto rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-2xl mb-4 text-emerald-400 font-bold">4</div>
               <h4 className="text-white font-bold mb-2">Admin Control</h4>
-              <p className="text-zinc-400 text-sm">Administrators monitor the entire database through a secret, password-protected control panel.</p>
+              <p className="text-zinc-400 text-sm">Admin accounts can view registered users through a server-protected endpoint.</p>
             </div>
           </div>
         </div>
@@ -85,21 +85,21 @@ export default function LandingPage() {
       {/* ----------------- 3. CORE ARCHITECTURE SECTION ----------------- */}
       <div id="architecture" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white mb-4">Built for Scale & Performance</h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto text-lg">No spaghetti code. Just pure, clean, and modular software engineering practices designed for commercial readiness.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">Project Architecture</h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto text-lg">A modular frontend and backend with routes, controllers, and models.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-xl bg-zinc-950 flex items-center justify-center text-3xl mb-6 border border-zinc-800 group-hover:scale-110 transition-transform">🔒</div>
             <h3 className="text-xl font-bold text-white mb-3">Role-Based Access (RBAC)</h3>
-            <p className="text-zinc-400 leading-relaxed">Advanced security routing. Free users, Premium users, and Administrators have strictly distinct privileges and API access levels.</p>
+            <p className="text-zinc-400 leading-relaxed">Task routes require a token, and the users list requires an admin role.</p>
           </div>
           
           <div className="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-xl bg-zinc-950 flex items-center justify-center text-3xl mb-6 border border-zinc-800 group-hover:scale-110 transition-transform">⚡</div>
             <h3 className="text-xl font-bold text-white mb-3">Strict MVC Pattern</h3>
-            <p className="text-zinc-400 leading-relaxed">Complete separation of concerns. Database Models, User Views, and Backend Controllers are fully isolated for flawless scaling.</p>
+            <p className="text-zinc-400 leading-relaxed">Backend routes, controllers, and models are organized separately from React pages.</p>
           </div>
 
           <div className="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 group">
@@ -117,7 +117,7 @@ export default function LandingPage() {
           <div className="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-xl bg-zinc-950 flex items-center justify-center text-3xl mb-6 border border-zinc-800 group-hover:scale-110 transition-transform">🛡️</div>
             <h3 className="text-xl font-bold text-white mb-3">Creator Authentication</h3>
-            <p className="text-zinc-400 leading-relaxed">A secondary layer of security. The Admin panel is locked behind a custom protocol question to prevent unauthorized database access.</p>
+            <p className="text-zinc-400 leading-relaxed">The admin page requests user data through the authenticated, admin-only API route.</p>
           </div>
 
           <div className="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 group">
@@ -162,10 +162,10 @@ export default function LandingPage() {
             
             <div className="text-center md:text-left flex-1">
               <h3 className="text-3xl font-extrabold text-white mb-2">Ahsan Hameed</h3>
-              <p className="text-emerald-400 font-bold text-sm mb-5 uppercase tracking-widest">Lead Architect & Full Stack Engineer</p>
+              <p className="text-emerald-400 font-bold text-sm mb-5 uppercase tracking-widest">Computer Science Student & Developer</p>
               
               <p className="text-zinc-300 text-base leading-relaxed mb-6 italic border-l-4 border-emerald-500 pl-4 py-1">
-                "My philosophy in software engineering is simple: Build the foundation right the first time. This application is a demonstration of commercial-grade development, avoiding temporary shortcuts in favor of robust, scalable, and maintainable code."
+                "My philosophy in software engineering is simple: Build the foundation right the first time. This project is part of my journey learning full-stack development. I am improving its reliability and documentation as I learn."
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4">
