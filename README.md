@@ -49,9 +49,9 @@ You need Node.js, npm, and a MongoDB database.
    npm run dev
    ```
 
-4. Open the local URL printed by Vite. The frontend currently sends API requests to `http://localhost:5000`.
+4. Open the local URL printed by Vite. The frontend uses `http://localhost:5000` locally unless `VITE_API_URL` is set at build time.
 
-Keep `.env` and credentials out of Git. The frontend deployment link is provided for reference; its API-dependent features require a reachable backend. This repository does not currently configure a deployed API URL.
+Keep `.env` and credentials out of Git. The frontend deployment link is provided for reference; its API-dependent features require a reachable backend. For Vercel, set the `VITE_API_URL` environment variable to the public Render backend origin (for example, `https://your-service.onrender.com`, with no `/api` suffix), then redeploy. The existing Vercel variable name and live connection have not been verified.
 
 ## API routes
 
@@ -73,4 +73,4 @@ The task routes expect `Authorization: Bearer <token>`.
 
 ## Current status
 
-This is a portfolio project in progress. The pricing screen shows a Premium option, but no checkout or payment integration is implemented in this repository. Automated backend tests are not configured yet. The frontend's API URLs are hardcoded for local development, so deploying the frontend alone will not make login or tasks work remotely.
+This is a portfolio project in progress. The pricing screen shows a Premium option, but no checkout or payment integration is implemented in this repository. Automated backend tests are not configured yet. The frontend needs `VITE_API_URL` set to a reachable backend for login and tasks to work remotely.
