@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
-  const [status, setStatus] = useState('loading');
+  const [userInfo] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('userInfo') || 'null'); }
+    catch { return null; }
+  });
+  const [status, setStatus] = useState(userInfo?.token ? 'loading' : 'login');
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo') || 'null');
-    if (!userInfo?.token) {
-      setStatus('login');
-      return;
-    }
+    if (!userInfo?.token) return;
 
     axios.get(`${API_BASE_URL}/api/users/admin/users`, {
       headers: { Authorization: `Bearer ${userInfo.token}` }
@@ -24,7 +24,7 @@ export default function AdminPanel() {
       .catch((error) => {
         setStatus(error.response?.status === 403 ? 'forbidden' : 'error');
       });
-  }, []);
+  }, [userInfo]);
 
   if (status === 'login') return <p className="p-8 text-white">Please <Link to="/login" className="underline">log in</Link> to continue.</p>;
   if (status === 'forbidden') return <p className="p-8 text-white">Access denied. An admin account is required.</p>;
